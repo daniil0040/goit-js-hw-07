@@ -4,9 +4,9 @@ import { galleryItems } from './gallery-items.js';
 const container = document.querySelector(".gallery");
 container.insertAdjacentHTML("beforeend", createMarkup(galleryItems))
 function createMarkup(arr) {
-    return arr.map(({ preview, original, description }) => `<li class='gallery__item js-gallery__item'>
-    <a class='gallery__link default' href ="${original}"> 
-    <img class="gallery__image"
+    return arr.map(({ preview, original, description }) => `<li class='gallery__item'>
+    <a class='gallery__link' href ="${original}"> 
+    <img class="gallery__image js-gallery__image"
     src="${preview}"
     data-source="${original}"
     alt="${description}"/>
@@ -29,22 +29,26 @@ function createMarkup(arr) {
 
 container.addEventListener("click", hendlerClick)
 function hendlerClick(evt) {
-    // evt.preventDefault()
-    if (!evt.target.classList.contains("js-gallery__item")) {
+    evt.preventDefault()
+    if (!evt.target.classList.contains("js-gallery__image")) {
         return
     }
-    const url = evt.target.firstElementChild.getAttribute("href")
+    const url = evt.target.dataset.source
     const instance = basicLightbox.create(`
     <img src="${url}"/>
-`)
+`,{onShow: () => {
+        window.addEventListener('keydown', closeModal);
+      },
+      onClose: () => {
+        window.removeEventListener('keydown', closeModal);
+        }
+    })
     instance.show()
-document.addEventListener("keydown",closeModal)
     function closeModal(evt) {
         if (!evt.keyCode === "Escape") {
             return
         }
         instance.close()
-        document.removeEventListener("keydown",closeModal)
     }
 }
 // {
