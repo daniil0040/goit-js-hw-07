@@ -42,6 +42,6 @@
 .gallery__link:hover {
   cursor: zoom-in;
 }
-a{
+.default{
   pointer-events: none;
 }

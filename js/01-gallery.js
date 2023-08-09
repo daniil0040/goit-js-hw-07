@@ -2,16 +2,16 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
 const container = document.querySelector(".gallery");
+container.insertAdjacentHTML("beforeend", createMarkup(galleryItems))
 function createMarkup(arr) {
-    const markup = arr.map(({ preview, original, description }) => `<li class='gallery__item js-gallery__item'>
-    <a class='gallery__link' href ="${original}"> 
+    return arr.map(({ preview, original, description }) => `<li class='gallery__item js-gallery__item'>
+    <a class='gallery__link default' href ="${original}"> 
     <img class="gallery__image"
     src="${preview}"
     data-source="${original}"
     alt="${description}"/>
     </a>
     </li>`).join("")
-    
 //     let markup = ``;
 //     for (let i = 0; i < arr.length; i += 1) {
 //     markup += `<li class='gallery__item js-gallery__item'>
@@ -23,14 +23,13 @@ function createMarkup(arr) {
 //   </a>
 //     </li>`  
 //     }
-    
-    container.insertAdjacentHTML("beforeend", markup)
 }
-createMarkup(galleryItems)
+
 
 
 container.addEventListener("click", hendlerClick)
 function hendlerClick(evt) {
+    // evt.preventDefault()
     if (!evt.target.classList.contains("js-gallery__item")) {
         return
     }
